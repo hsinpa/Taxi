@@ -19,6 +19,9 @@ namespace Hsinpa.Vehicle
         [SerializeField, Range(0, 90)]
         private float angle_constraint = 30;
 
+        [SerializeField, Range(0, 100)]
+        private float forward_strength = 1;
+
         private Bounds m_bounds;
 
         private Rigidbody rigidbody;
@@ -95,6 +98,7 @@ namespace Hsinpa.Vehicle
             if (hit <= 0) return;
 
             float rotate_angle = Mathf.Lerp(-angle_constraint, angle_constraint, vehicleCtrl.vehicleInput.axis.x + 1 * 0.5f);
+            float scale_forward = Mathf.Lerp(-forward_strength, forward_strength, vehicleCtrl.vehicleInput.axis.y + 1 * 0.5f);
 
 
             Vector3 tireWorldVel = rigidbody.GetPointVelocity(virtual_position);
@@ -111,7 +115,7 @@ namespace Hsinpa.Vehicle
 
             ProcessSteering(tireWorldVel, side_dir, virtual_position);
 
-            ProcessAcceleration(this.rigidbody.velocity, virtual_position, this.transform.forward, relative_angle: rotate_angle, forward_strength: 0.05f);
+            ProcessAcceleration(this.rigidbody.velocity, virtual_position, this.transform.forward, relative_angle: rotate_angle, forward_strength: scale_forward);
         }
 
         private VehicleStruct UpdateStructState(ref VehicleStruct vehicleStruct) {
