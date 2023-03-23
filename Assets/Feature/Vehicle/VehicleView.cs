@@ -22,6 +22,9 @@ namespace Hsinpa.Vehicle
         [SerializeField, Range(0, 100)]
         private float forward_strength = 1;
 
+        [SerializeField]
+        private VehicleDataSRP vehicleDataSRP;
+
         private Bounds m_bounds;
 
         private Rigidbody rigidbody;
@@ -65,22 +68,25 @@ namespace Hsinpa.Vehicle
             this.rigidbody.AddForceAtPosition(direction * force, position);
         }
 
-        private void ProcessAcceleration(Vector3 carVel, Vector3 position, Vector3 direction, float relative_angle, float forward_strength) {
+        private void ProcessAcceleration(Vector3 carVel, Vector3 position, Vector3 direction, float relative_angle, float forward_strength, float maxVelocity, AnimationCurve powerLookup) {
             if (forward_strength == 0) return;
 
             Vector3 acceleration_dir = Quaternion.AngleAxis(relative_angle, Vector3.up) * direction;
 
             float carSpeed = Vector3.Dot(direction, carVel);
+            float final_force = powerLookup.Evaluate(Mathf.Clamp(carSpeed, 0, 1));
 
             //float normalizedSpeed = Mathf.Clamp01( Mathf.Abs(carSpeed) / carSpeed );
 
-            this.rigidbody.AddForceAtPosition(acceleration_dir * forward_strength, position);
+            this.rigidbody.AddForceAtPosition(acceleration_dir * (forward_strength * final_force), position);
         }
 
-        private void ProcessSteering(Vector3 tireWorldVel, Vector3 steeringDir, Vector3 position) {
+        private void ProcessSteering(Vector3 tireWorldVel, Vector3 steeringDir, Vector3 position, float maxVelocity, AnimationCurve gripLookup) {
             float steeringVel = Vector3.Dot(steeringDir, tireWorldVel);
 
-            float gripFactor = 1;
+            //float gripFactor = 1;
+            float gripFactor = gripLookup.Evaluate( Mathf.Clamp(steeringVel /  maxVelocity, 0, 1) );
+
             float desiredVelChange = -steeringVel * gripFactor;
 
             float desiredAccel = desiredVelChange / Time.fixedDeltaTime;
@@ -89,7 +95,7 @@ namespace Hsinpa.Vehicle
             this.rigidbody.AddForceAtPosition(steeringDir * tireMass * desiredVelChange, position);
         }
 
-        private void ProcessWheel(Vector3 virtual_position, Vector3 up_direction, WheelType wheelType)
+        private void ProcessWheel(Vector3 virtual_position, Vector3 up_direction, WheelType wheelType, VehicleDataSRP.WheelConfig wheelConfig)
         {
             m_ray.origin = virtual_position;
             m_ray.direction = -up_direction;
@@ -99,7 +105,6 @@ namespace Hsinpa.Vehicle
 
             float rotate_angle = Mathf.Lerp(-angle_constraint, angle_constraint, vehicleCtrl.vehicleInput.axis.x + 1 * 0.5f);
             float scale_forward = Mathf.Lerp(-forward_strength, forward_strength, vehicleCtrl.vehicleInput.axis.y + 1 * 0.5f);
-
 
             Vector3 tireWorldVel = rigidbody.GetPointVelocity(virtual_position);
 
@@ -113,9 +118,9 @@ namespace Hsinpa.Vehicle
 
             ProcessSuspension(tireWorldVel, m_rayhit[0], WHEEL_RADIUS, virtual_position, up_direction);
 
-            ProcessSteering(tireWorldVel, side_dir, virtual_position);
+            ProcessSteering(tireWorldVel, side_dir, virtual_position, vehicleDataSRP.max_steering_force, wheelConfig.grip_factor);
 
-            ProcessAcceleration(this.rigidbody.velocity, virtual_position, this.transform.forward, relative_angle: rotate_angle, forward_strength: scale_forward);
+            ProcessAcceleration(this.rigidbody.velocity, virtual_position, this.transform.forward, relative_angle: rotate_angle, forward_strength: scale_forward, maxVelocity: vehicleDataSRP.max_horse_power, powerLookup: wheelConfig.horse_power);
         }
 
         private VehicleStruct UpdateStructState(ref VehicleStruct vehicleStruct) {
@@ -139,11 +144,11 @@ namespace Hsinpa.Vehicle
 
             Vector3 direction_up = transform.up;
 
-            ProcessWheel(vehicleStruct.front_right_wheel_world, direction_up, WheelType.Front);
-            ProcessWheel(vehicleStruct.front_left_wheel_world, direction_up, WheelType.Front);
+            ProcessWheel(vehicleStruct.front_right_wheel_world, direction_up, WheelType.Front, vehicleDataSRP.front_wheels);
+            ProcessWheel(vehicleStruct.front_left_wheel_world, direction_up, WheelType.Front, vehicleDataSRP.front_wheels);
 
-            ProcessWheel(vehicleStruct.back_right_wheel_world, direction_up, WheelType.Back);
-            ProcessWheel(vehicleStruct.back_left_wheel_world, direction_up, WheelType.Back);
+            ProcessWheel(vehicleStruct.back_right_wheel_world, direction_up, WheelType.Back, vehicleDataSRP.back_wheels);
+            ProcessWheel(vehicleStruct.back_left_wheel_world, direction_up, WheelType.Back, vehicleDataSRP.back_wheels);
         }
 
         private void OnDrawGizmos()

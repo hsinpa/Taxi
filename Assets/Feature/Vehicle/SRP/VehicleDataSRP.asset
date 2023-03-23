@@ -1,0 +1,169 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b7ca0c186113724fbd677b6913d70a8, type: 3}
+  m_Name: VehicleDataSRP
+  m_EditorClassIdentifier: 
+  front_wheels:
+    horse_power:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    grip_factor:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0.95000076
+        inSlope: -0.42763844
+        outSlope: -0.42763844
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.4172831
+        value: 0.77155447
+        inSlope: -0.74847233
+        outSlope: -0.74847233
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.18433519
+      - serializedVersion: 3
+        time: 0.8128288
+        value: 0.17185554
+        inSlope: -0.25576875
+        outSlope: -0.25576875
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.38756365
+      - serializedVersion: 3
+        time: 1
+        value: 0.099998474
+        inSlope: -0.38391086
+        outSlope: -0.38391086
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  back_wheels:
+    horse_power:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0.5
+        inSlope: 1.6052134
+        outSlope: 1.6052134
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.31
+        value: 0.9976162
+        inSlope: 0.23873106
+        outSlope: 0.23873106
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.20459652
+      - serializedVersion: 3
+        time: 0.69681144
+        value: 0.99841905
+        inSlope: -0.15040296
+        outSlope: -0.15040296
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.22393477
+      - serializedVersion: 3
+        time: 1
+        value: 0.29999924
+        inSlope: -2.3035824
+        outSlope: -2.3035824
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    grip_factor:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0.70000076
+        inSlope: -0.27892768
+        outSlope: -0.27892768
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.38398996
+        value: 0.5928953
+        inSlope: -0.9048884
+        outSlope: -0.9048884
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.24062353
+      - serializedVersion: 3
+        time: 0.63732034
+        value: 0.15777989
+        inSlope: -0.6057927
+        outSlope: -0.6057927
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.15993166
+      - serializedVersion: 3
+        time: 1
+        value: 0.049999237
+        inSlope: -0.29717866
+        outSlope: -0.29717866
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  friction: 0.01
+  max_horse_power: 20
+  max_steering_force: 3
