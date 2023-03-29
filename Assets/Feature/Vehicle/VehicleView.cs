@@ -33,7 +33,7 @@ namespace Hsinpa.Vehicle
         private RaycastHit[] m_rayhit;
         private Ray m_ray;
 
-        private const float WHEEL_RADIUS = 0.15f;
+        private const float WHEEL_RADIUS = 0.25f;
         private VehicleCtrl vehicleCtrl;
 
         void Start()
@@ -51,7 +51,9 @@ namespace Hsinpa.Vehicle
             if (m_render != null)
                 m_bounds = m_render.bounds;
 
-            float floor = -m_bounds.extents.y + (0.01f);
+            float floor = (m_bounds.center.y - m_bounds.extents.y) + (0.01f);
+
+            Debug.Log(m_bounds.extents);
 
             vehicleStruct.front_right_wheel_local = new Vector3(m_bounds.extents.x, floor, m_bounds.extents.z);
             vehicleStruct.front_left_wheel_local = new Vector3(-m_bounds.extents.x, floor, m_bounds.extents.z);
@@ -110,8 +112,11 @@ namespace Hsinpa.Vehicle
 
             Vector3 acceleration_dir = this.transform.forward;
 
-            if (wheelType == WheelType.Front)
+            if (wheelType == WheelType.Front) {
                 acceleration_dir = Vector3.Normalize(Quaternion.AngleAxis(rotate_angle, transform.up) * this.transform.forward);
+            }
+            else
+                rotate_angle = 0;
 
             Vector3 side_dir = Vector3.Cross(transform.up, acceleration_dir);
             //side_dir.z = side_dir.z * -1;
@@ -120,7 +125,8 @@ namespace Hsinpa.Vehicle
 
             ProcessSteering(tireWorldVel, side_dir, virtual_position, vehicleDataSRP.max_steering_force, wheelConfig.grip_factor);
 
-            ProcessAcceleration(this.rigidbody.velocity, virtual_position, this.transform.forward, relative_angle: rotate_angle, forward_strength: scale_forward, maxVelocity: vehicleDataSRP.max_horse_power, powerLookup: wheelConfig.horse_power);
+            ProcessAcceleration(this.rigidbody.velocity, virtual_position, this.transform.forward, relative_angle: rotate_angle, 
+                                forward_strength: scale_forward * 3, maxVelocity: vehicleDataSRP.max_horse_power, powerLookup: wheelConfig.horse_power);
         }
 
         private VehicleStruct UpdateStructState(ref VehicleStruct vehicleStruct) {

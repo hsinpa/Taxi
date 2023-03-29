@@ -33,8 +33,8 @@ public class CameraSystem : MonoBehaviour
     void UpdateCameraPosition() {
         Vector3 car_position = transform.position;
 
-        car_position -= (transform.forward * 3);
-        car_position.y += 1.5f;
+        car_position -= (transform.forward * 4);
+        car_position.y += 2.0f;
 
         m_lerp_position = Vector3.Lerp(m_lerp_position, car_position, 0.08f);
 
