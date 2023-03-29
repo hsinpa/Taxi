@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
+using static Hsinpa.Vehicle.VehicleDataSRP;
 
 namespace Hsinpa.Vehicle
 {
@@ -46,19 +48,23 @@ namespace Hsinpa.Vehicle
             CalculateLocalWheelPosition();
         }
 
-        private void CalculateLocalWheelPosition()
+        private async void CalculateLocalWheelPosition()
         {
+            var original_rotation = this.transform.rotation;
+            this.transform.rotation = Quaternion.identity;
+
+            await Task.Delay(100);
             if (m_render != null)
                 m_bounds = m_render.bounds;
 
             float floor = (m_bounds.center.y - m_bounds.extents.y) + (0.01f);
 
-            Debug.Log(m_bounds.extents);
+            vehicleStruct.front_right_wheel_local = (new Vector3(m_bounds.extents.x, floor, m_bounds.extents.z));
+            vehicleStruct.front_left_wheel_local = (new Vector3(-m_bounds.extents.x, floor, m_bounds.extents.z));
+            vehicleStruct.back_right_wheel_local = (new Vector3(m_bounds.extents.x, floor, -m_bounds.extents.z));
+            vehicleStruct.back_left_wheel_local = (new Vector3(-m_bounds.extents.x, floor, -m_bounds.extents.z));
 
-            vehicleStruct.front_right_wheel_local = new Vector3(m_bounds.extents.x, floor, m_bounds.extents.z);
-            vehicleStruct.front_left_wheel_local = new Vector3(-m_bounds.extents.x, floor, m_bounds.extents.z);
-            vehicleStruct.back_right_wheel_local = new Vector3(m_bounds.extents.x, floor, -m_bounds.extents.z);
-            vehicleStruct.back_left_wheel_local = new Vector3(-m_bounds.extents.x, floor, -m_bounds.extents.z);
+            this.transform.rotation = original_rotation;
         }
 
         private void ProcessSuspension(Vector3 tireWorldVel, RaycastHit rayhit, float suspensionRestDist, Vector3 position, Vector3 direction) {
@@ -107,7 +113,6 @@ namespace Hsinpa.Vehicle
 
             float rotate_angle = Mathf.Lerp(-angle_constraint, angle_constraint, vehicleCtrl.vehicleInput.axis.x + 1 * 0.5f);
             float scale_forward = Mathf.Lerp(-forward_strength, forward_strength, vehicleCtrl.vehicleInput.axis.y + 1 * 0.5f);
-
             Vector3 tireWorldVel = rigidbody.GetPointVelocity(virtual_position);
 
             Vector3 acceleration_dir = this.transform.forward;
@@ -147,8 +152,16 @@ namespace Hsinpa.Vehicle
             if (!Application.isPlaying) return;
 
             UpdateStructState(ref this.vehicleStruct);
-
             Vector3 direction_up = transform.up;
+
+            if (vehicleCtrl.vehicleInput.axis.sqrMagnitude < 0.1f) {
+                Vector3 newVelocity = rigidbody.velocity - (rigidbody.velocity * vehicleDataSRP.friction);
+
+                if (newVelocity.magnitude < 0.05f)
+                    newVelocity = newVelocity * 0;
+
+                rigidbody.velocity = newVelocity;
+            }
 
             ProcessWheel(vehicleStruct.front_right_wheel_world, direction_up, WheelType.Front, vehicleDataSRP.front_wheels);
             ProcessWheel(vehicleStruct.front_left_wheel_world, direction_up, WheelType.Front, vehicleDataSRP.front_wheels);
