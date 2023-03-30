@@ -43,15 +43,15 @@ MonoBehaviour:
       - serializedVersion: 3
         time: -0.0015068054
         value: 0.98773575
-        inSlope: -0.16282886
-        outSlope: -0.16282886
+        inSlope: -0.25016052
+        outSlope: -0.25016052
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.87342066
-        value: 0.8452723
+        time: 0.7753677
+        value: 0.7933924
         inSlope: -0.52679145
         outSlope: -0.52679145
         tangentMode: 0
@@ -59,10 +59,10 @@ MonoBehaviour:
         inWeight: 0.33333334
         outWeight: 0.18976633
       - serializedVersion: 3
-        time: 0.9849243
-        value: 0.6872635
-        inSlope: -1.4170729
-        outSlope: -1.4170729
+        time: 0.9894409
+        value: 0.5150986
+        inSlope: -1.2999936
+        outSlope: -1.2999936
         tangentMode: 34
         weightedMode: 0
         inWeight: 0.33333334
@@ -117,17 +117,17 @@ MonoBehaviour:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: -0.0015068054
-        value: 0.9910393
-        inSlope: -0.29792
-        outSlope: -0.29792
+        time: 0.010559082
+        value: 0.88726425
+        inSlope: -0.3065775
+        outSlope: -0.3065775
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.8580629
-        value: 0.73495626
+        time: 0.6996767
+        value: 0.6759963
         inSlope: -1.1149112
         outSlope: -1.1149112
         tangentMode: 0
@@ -135,10 +135,10 @@ MonoBehaviour:
         inWeight: 0.33333334
         outWeight: 0.20087725
       - serializedVersion: 3
-        time: 1
-        value: 0.049999237
-        inSlope: -4.8257794
-        outSlope: -4.8257794
+        time: 0.9909668
+        value: 0.295269
+        inSlope: -1.3070382
+        outSlope: -1.3070382
         tangentMode: 34
         weightedMode: 0
         inWeight: 0.33333334
@@ -147,5 +147,5 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   friction: 0.01
-  max_horse_power: 20
-  max_steering_force: 3
+  max_horse_power: 35
+  max_steering_force: 5

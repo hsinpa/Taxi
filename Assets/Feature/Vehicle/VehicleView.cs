@@ -93,7 +93,7 @@ namespace Hsinpa.Vehicle
             float steeringVel = Vector3.Dot(steeringDir, tireWorldVel);
 
             //float gripFactor = 1;
-            float gripFactor = gripLookup.Evaluate( Mathf.Clamp(steeringVel /  maxVelocity, 0, 1) );
+            float gripFactor = gripLookup.Evaluate( Mathf.Clamp( Mathf.Abs(steeringVel) /  maxVelocity, 0, 1) );
 
             float desiredVelChange = -steeringVel * gripFactor;
 
