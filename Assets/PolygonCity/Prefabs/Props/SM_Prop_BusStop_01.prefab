@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 416874}
   - component: {fileID: 3375696}
   - component: {fileID: 2321158}
-  - component: {fileID: 520048950428581852}
+  - component: {fileID: 3460971766100041324}
   m_Layer: 0
   m_Name: SM_Prop_BusStop_01
   m_TagString: Untagged
@@ -168,7 +168,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &520048950428581852
+--- !u!65 &3460971766100041324
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
