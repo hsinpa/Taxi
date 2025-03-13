@@ -130,7 +130,7 @@ namespace Hsinpa.Vehicle
 
             ProcessSteering(tireWorldVel, side_dir, virtual_position, vehicleDataSRP.max_steering_force, wheelConfig.grip_factor);
 
-            ProcessAcceleration(this.rigidbody.velocity, virtual_position, this.transform.forward, relative_angle: rotate_angle, 
+            ProcessAcceleration(this.rigidbody.linearVelocity, virtual_position, this.transform.forward, relative_angle: rotate_angle, 
                                 forward_strength: scale_forward * 3, maxVelocity: vehicleDataSRP.max_horse_power, powerLookup: wheelConfig.horse_power);
         }
 
@@ -155,12 +155,12 @@ namespace Hsinpa.Vehicle
             Vector3 direction_up = transform.up;
 
             if (vehicleCtrl.vehicleInput.axis.sqrMagnitude < 0.1f) {
-                Vector3 newVelocity = rigidbody.velocity - (rigidbody.velocity * vehicleDataSRP.friction);
+                Vector3 newVelocity = rigidbody.linearVelocity - (rigidbody.linearVelocity * vehicleDataSRP.friction);
 
                 if (newVelocity.magnitude < 0.05f)
                     newVelocity = newVelocity * 0;
 
-                rigidbody.velocity = newVelocity;
+                rigidbody.linearVelocity = newVelocity;
             }
 
             ProcessWheel(vehicleStruct.front_right_wheel_world, direction_up, WheelType.Front, vehicleDataSRP.front_wheels);
